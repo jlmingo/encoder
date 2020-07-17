@@ -13,7 +13,7 @@ path_input_file = read_path(input_all_paths, "input_excel")
 #declaring variables
 dictionary_nonces = {}
 encrypting_cols = ["Employee ID", "Employee Name", "Job Title"]
-public_job_title="pv power plant manager"
+
 
 #generate key
 print("Generating random key")
@@ -25,7 +25,10 @@ with open("key.txt", "w") as f:
 
 #reading dataframe
 print("Generating dataframe from input Excel file")
-df=pd.read_excel(path_input_file, dtype="str")
+df=pd.read_excel(path_input_file, dtype=dict(zip(encrypting_cols, ["str"]*len(encrypting_cols))), parse_dates=["Hire Date"])
+
+#establish date format
+df.loc[:,"Hire Date"]=df["Hire Date"].dt.strftime("%d/%m/%Y")
 
 #encrypting selected columns. encrypt_text function updates dictionary_nonces
 print("Encrypting data...")

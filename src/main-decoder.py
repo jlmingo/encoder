@@ -16,7 +16,10 @@ key_path = read_path(input_all_paths, "key")
 json_nonces_path = read_path(input_all_paths, "json")
 
 #create dataframe
-df = pd.read_excel(encrypted_file_path, dtype="str")
+df = pd.read_excel(encrypted_file_path, dtype=dict(zip(encrypting_cols, ["str"]*len(encrypting_cols))), parse_dates=["Hire Date"])
+
+#establish date format
+df.loc[:,"Hire Date"]=df["Hire Date"].dt.strftime("%d/%m/%Y")
 
 #obtain key
 with open(key_path, "r") as f:
